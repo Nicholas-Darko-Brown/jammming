@@ -5,6 +5,14 @@ import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import Spotify from '../../util/Spotify';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab }  from '@fortawesome/free-brands-svg-icons';
+import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
+
+library.add(fab, faPlay, faPause);
+
+Spotify.getAccessToken();
+
 class App extends React.Component {
   constructor (props){
     super(props);
@@ -51,10 +59,25 @@ class App extends React.Component {
     })
   }
 
-  search (term){
-    Spotify.search(term).then(searchResults => {
-      this.setState({searchResults: searchResults});
-    });
+  get initialState() {
+    return {
+      searchResults: [],
+      playlistName: "New Playlist",
+      playlistTracks: []
+    };
+  }
+
+  search(term) {
+    this.setState(this.initialState);
+    
+    let results = this.state.searchResults; 
+    Spotify.search(term).then(searchResults => { 
+      searchResults.map(result => results.push(result));
+    }).then(() => {
+      this.setState({
+        searchResults: results
+      })
+    })
   }
 
 

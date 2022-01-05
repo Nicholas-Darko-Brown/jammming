@@ -44,7 +44,8 @@ const Spotify = {
                 name: track.name,
                 artist: track.artists[0].name,
                 album: track.album.name,
-                uri: track.uri
+                uri: track.uri,
+                previewUri: track.preview_url
             }))
         })
     },
@@ -79,6 +80,33 @@ const Spotify = {
                 });
             });
         });
+    },
+
+    playTrack(name, trackUris) {
+        if (!name || !trackUris.length) {
+            return;
+        }
+
+        const accessToken = Spotify.getAccessToken();
+        const bearer = {Authorization: `Bearer ${accessToken}`}
+
+        return fetch(`https://api.spotify.com/v1/me`, {headers: bearer}
+        ).then(response => response.json()
+        ).then(jsonResponse => {
+            return fetch(`https://api.spotify.com/v1/me/player/play`,
+                {
+                headers: bearer,
+                method: 'POST',
+                body: JSON.stringify(
+                    {
+                        name: name,
+                        "context_uri": "spotify:album:5ht7ItJgpBH7W6vJ5BqpPr",
+                        "offset": {"position": 5},
+                        "position_ms": 0
+                    }
+                )
+            })
+        })
     }
 }
 

@@ -35,3 +35,18 @@
     font-weight: 300;
     color: rgba(256, 256, 256, 0.8);
   }
+
+  .Track-information p a:not([href])​ {
+    display: none;
+  }
+
+  .Track-information p a {
+    color: #fff053;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    Display:block;
+    }
+    .Track-information p a:hover {
+    color: #fffbb7;
+  }
